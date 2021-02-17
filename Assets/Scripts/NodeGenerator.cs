@@ -19,7 +19,7 @@ public class NodeGenerator : MonoBehaviour
     void Update()
     {
         deltaTime += Time.deltaTime;
-        if (deltaTime > 1)
+        if (deltaTime > 100)
         {
             Ball ball = Instantiate(node, transform).GetComponent<Ball>();
             ball.role = BallRole.Follower;

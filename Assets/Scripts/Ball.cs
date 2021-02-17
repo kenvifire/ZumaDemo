@@ -4,16 +4,18 @@ using DefaultNamespace;
 using PathCreation;
 using UnityEngine;
 using System;
+using PathCreation.Examples;
 
 public class Ball : MonoBehaviour
 {
     [SerializeField] public BallRole role;
     public PathCreator pathCreator;
+    public Follower follower;
     public float speed = 5;
-    public float bulletSpeed = 10;
-    private float distanceTravelled;
+    public float bulletSpeed = 20;
     public Vector3 direction;
     public Color color;
+    [SerializeField] public MoveType moveType;
 
     private Color[] colors = new[]
     {
@@ -22,12 +24,18 @@ public class Ball : MonoBehaviour
         Color.green,
         Color.yellow
     };
-    
+
+    private void Awake()
+    {
+        follower = GetComponent<Follower>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         var colorIdx = new System.Random().Next(colors.Length);
         GetComponent<SpriteRenderer>().color = colors[colorIdx];
+        
     }
 
     // Update is called once per frame
@@ -37,7 +45,7 @@ public class Ball : MonoBehaviour
         switch (role)
         {
             case BallRole.Follower:
-                FollowPath();
+                // FollowPath();
                 break;
             case BallRole.Bullet:
                 MovingForward();
@@ -45,15 +53,30 @@ public class Ball : MonoBehaviour
         }
     }
 
-    void FollowPath()
-    {
-        distanceTravelled += speed * Time.deltaTime;
-        transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled);
-        // transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled);
-    }
+
 
     void MovingForward()
     {
         transform.Translate(speed * Time.deltaTime * direction.normalized);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Ball otherBall = other.GetComponent<Ball>();
+        if (otherBall == null) return;
+        if (otherBall.role == BallRole.Follower)
+        {
+            return;
+        }
+        else
+        {
+            float distanceTravelled = follower.GetDistanceTravelled() - 2.0f;
+            otherBall.role = BallRole.Follower;
+            otherBall.GetComponent<Follower>().SetDistanceTravelled(distanceTravelled);
+            otherBall.transform.position = follower.pathCreator.path.GetPointAtDistance(distanceTravelled);
+
+        }
+        
+        
     }
 }
