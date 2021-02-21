@@ -16,6 +16,8 @@ public class Ball : MonoBehaviour
     public Vector3 direction;
     public Color color;
     [SerializeField] public MoveType moveType;
+    public CircleCollider2D circleCollider2D;
+    public string nodeGuid;
 
     private Color[] colors = new[]
     {
@@ -28,6 +30,8 @@ public class Ball : MonoBehaviour
     private void Awake()
     {
         follower = GetComponent<Follower>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
+        nodeGuid = Guid.NewGuid().ToString();
     }
 
     // Start is called before the first frame update
@@ -72,11 +76,24 @@ public class Ball : MonoBehaviour
         {
             float distanceTravelled = follower.GetDistanceTravelled() - 2.0f;
             otherBall.role = BallRole.Follower;
+            NodeManager.InsertBallAfter(otherBall, GetComponent<Ball>());
+            
             otherBall.GetComponent<Follower>().SetDistanceTravelled(distanceTravelled);
             otherBall.transform.position = follower.pathCreator.path.GetPointAtDistance(distanceTravelled);
+            GameStatusManager.InsertingNode();
 
         }
         
         
+    }
+
+    public bool IsTouching(Ball other)
+    {
+        if (other != null)
+        {
+            return this.circleCollider2D.IsTouching(other.circleCollider2D);
+        }
+
+        return false;
     }
 }

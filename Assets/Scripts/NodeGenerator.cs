@@ -19,10 +19,15 @@ public class NodeGenerator : MonoBehaviour
     void Update()
     {
         deltaTime += Time.deltaTime;
-        if (deltaTime > 100)
+        if (deltaTime > 1)
         {
-            Ball ball = Instantiate(node, transform).GetComponent<Ball>();
-            ball.role = BallRole.Follower;
+            if (GameStatusManager.status == GameStatus.Shooting)
+            {
+                Ball ball = Instantiate(node, transform).GetComponent<Ball>();
+                ball.role = BallRole.Follower;
+                NodeManager.AddBall(ball);
+            }
+
             deltaTime -= 1;
         } 
     }

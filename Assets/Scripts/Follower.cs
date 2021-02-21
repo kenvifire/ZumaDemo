@@ -9,6 +9,7 @@ public class Follower : MonoBehaviour
 {
     public PathCreator pathCreator;
     public float speed = 5;
+    public float bulletSpeed = 20;
 
     private float distanceTravelled;
     private Ball ball;
@@ -19,17 +20,20 @@ public class Follower : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+
+    public void Follow(MoveType moveType)
     {
+        float factor = 1.0f;
+
+        if (moveType == MoveType.Backward) factor = -1.0f;
+        
         if (ball.role == BallRole.Bullet)
         {
-            ball.transform.Translate(speed * Time.deltaTime * ball.direction.normalized);
+            ball.transform.Translate(bulletSpeed * Time.deltaTime * ball.direction.normalized * factor);
         }
         else
         {
-            float factor = 1.0f;
 
-            if (ball.moveType == MoveType.Backward) factor = -1.0f;
             distanceTravelled += speed * Time.deltaTime * factor;
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled);
             //Rotation will make the 2D ball disappear
