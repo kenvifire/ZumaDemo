@@ -96,4 +96,9 @@ public class Ball : MonoBehaviour
 
         return false;
     }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
 }

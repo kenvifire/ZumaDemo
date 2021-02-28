@@ -18,6 +18,12 @@ namespace DefaultNamespace
 
         public static void DestroyBall(Ball ball)
         {
+            switch (ball.role)
+            {
+                case BallRole.Bullet:
+                    ball.Destroy();
+                    break;
+            }
             
         }
 
