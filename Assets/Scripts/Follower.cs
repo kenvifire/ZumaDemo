@@ -17,6 +17,7 @@ public class Follower : MonoBehaviour
     private void Awake()
     {
         ball = GetComponent<Ball>();
+        pathCreator = FindObjectOfType<PathCreator>();
     }
 
     // Update is called once per frame
