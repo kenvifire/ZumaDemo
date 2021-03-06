@@ -2,12 +2,12 @@ namespace DefaultNamespace
 {
     public static class GameStatusManager
     {
-        public static GameStatus status = GameStatus.Shooting;
+        public static GameStatus status = GameStatus.NotStart;
         
 
         public static void StartGame()
         {
-            
+            status = GameStatus.Started;
         }
 
         public static void StartShooting()
@@ -18,6 +18,11 @@ namespace DefaultNamespace
         public static void InsertingNode()
         {
             status = GameStatus.Inserting;
+        }
+
+        public static void Ready()
+        {
+            status = GameStatus.Ready;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace DefaultNamespace
             {
                 case BallRole.Bullet:
                     ball.Destroy();
+                    GameStatusManager.Ready();
                     break;
             }
             
@@ -46,7 +47,6 @@ namespace DefaultNamespace
         public static void InsertBallAfter(Ball ballToInsert, Ball position)
         {
             //set position
-
             nodeBeingInserted = ballToInsert;
             //add to list
             LinkedListNode<Ball> previous = ballList.Find(position);
@@ -69,7 +69,10 @@ namespace DefaultNamespace
         {
             switch (GameStatusManager.status)
             {
+                case GameStatus.Started:
+                case GameStatus.Ready:
                 case GameStatus.Shooting:
+                        
                     MoveBalls();
                     break;
                 case GameStatus.Inserting:
@@ -102,7 +105,7 @@ namespace DefaultNamespace
 
             if (!isTouching)
             {
-                GameStatusManager.StartShooting();
+                GameStatusManager.Ready();
             }
             
         }

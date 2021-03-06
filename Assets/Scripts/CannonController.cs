@@ -10,7 +10,7 @@ public class CannonController : MonoBehaviour
     [SerializeField] private GameObject ball;
     void Start()
     {
-        
+        GameStatusManager.Ready();
     }
 
     // Update is called once per frame
@@ -27,7 +27,7 @@ public class CannonController : MonoBehaviour
         float angle = Mathf.Atan2(deltaY, deltaX) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && CanShoot())
         {
             Shoot(transform.position, new Vector3(deltaX, deltaY, 0));    
         }
@@ -36,8 +36,14 @@ public class CannonController : MonoBehaviour
     }
     void Shoot(Vector3 initPos, Vector3 direction)
     {
+        GameStatusManager.StartShooting();
         Ball bulletBall = Instantiate(ball, initPos, Quaternion.identity).GetComponent<Ball>();
         bulletBall.role = BallRole.Bullet;
         bulletBall.direction = direction;
+    }
+
+    bool CanShoot()
+    {
+        return GameStatusManager.status == GameStatus.Ready;
     }
 }

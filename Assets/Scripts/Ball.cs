@@ -81,7 +81,6 @@ public class Ball : MonoBehaviour
             otherBall.GetComponent<Follower>().SetDistanceTravelled(distanceTravelled);
             otherBall.transform.position = follower.pathCreator.path.GetPointAtDistance(distanceTravelled);
             GameStatusManager.InsertingNode();
-
         }
         
         

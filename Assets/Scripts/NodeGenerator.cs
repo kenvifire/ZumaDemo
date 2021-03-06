@@ -21,7 +21,7 @@ public class NodeGenerator : MonoBehaviour
         deltaTime += Time.deltaTime;
         if (deltaTime > 1)
         {
-            if (GameStatusManager.status == GameStatus.Shooting)
+            if (GameStatusManager.status != GameStatus.NotStart || GameStatusManager.status != GameStatus.End)
             {
                 Ball ball = Instantiate(node, transform).GetComponent<Ball>();
                 ball.role = BallRole.Follower;
