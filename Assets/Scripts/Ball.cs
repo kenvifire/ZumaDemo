@@ -18,6 +18,7 @@ public class Ball : MonoBehaviour
     [SerializeField] public MoveType moveType;
     public CircleCollider2D circleCollider2D;
     public string nodeGuid;
+    public bool isAlive = true;
 
     private Color[] colors = new[]
     {
@@ -99,5 +100,10 @@ public class Ball : MonoBehaviour
     public void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsDead()
+    {
+        return !isAlive || follower.IsOutOfRoad();
     }
 }

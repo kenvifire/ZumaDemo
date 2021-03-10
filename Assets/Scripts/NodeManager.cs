@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace DefaultNamespace
@@ -23,6 +24,9 @@ namespace DefaultNamespace
                 case BallRole.Bullet:
                     ball.Destroy();
                     GameStatusManager.Ready();
+                    break;
+                case BallRole.Follower:
+                    ball.Destroy();
                     break;
             }
             
@@ -72,7 +76,7 @@ namespace DefaultNamespace
                 case GameStatus.Started:
                 case GameStatus.Ready:
                 case GameStatus.Shooting:
-                        
+                    DeleteDeadNodes();    
                     MoveBalls();
                     break;
                 case GameStatus.Inserting:
@@ -115,6 +119,26 @@ namespace DefaultNamespace
             {
                 MoveNode(MoveType.Forward, ballList.First);
             }
+        }
+
+        private static void DeleteDeadNodes()
+        {
+            List<Ball> balls = new List<Ball>();
+
+            foreach (var ball in ballList)
+            {
+                if (ball.IsDead())
+                {
+                   balls.Add(ball); 
+                }
+            }
+
+            foreach (var ball in balls)
+            {
+                ballList.Remove(ball);
+                DestroyBall(ball);
+            }
+            
         }
     }
 }

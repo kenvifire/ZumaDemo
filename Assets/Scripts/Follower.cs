@@ -51,5 +51,10 @@ public class Follower : MonoBehaviour
     {
         return this.distanceTravelled;
     }
+
+    public bool IsOutOfRoad()
+    {
+        return this.distanceTravelled > pathCreator.path.length;
+    }
     
 }
