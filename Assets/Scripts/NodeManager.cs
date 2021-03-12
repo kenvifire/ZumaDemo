@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
@@ -109,9 +110,43 @@ namespace DefaultNamespace
 
             if (!isTouching)
             {
+                CheckComb(); 
                 GameStatusManager.Ready();
             }
             
+        }
+
+        private static void CheckComb()
+        {
+            Ball node = NodeManager.nodeBeingInserted;
+            LinkedListNode<Ball> listNode = ballList.Find(node);
+            Color color = node.color;
+            LinkedListNode<Ball> prev = listNode;
+            LinkedListNode<Ball> next = listNode;
+            int leftCnt = 0, rightCnt = 0;
+            while (prev.Previous != null && prev.Previous.Value.color == color)
+            {
+                prev = prev.Previous;
+                leftCnt++;
+            }
+
+            while (next.Next != null && next.Next.Value.color == color)
+            {
+                next = next.Next;
+                rightCnt++;
+            }
+
+            if (leftCnt + rightCnt >= 2)
+            {
+                LinkedListNode<Ball> curr = prev;
+                for (int i = 0; i <= leftCnt + rightCnt; i++)
+                {
+                    curr.Value.isAlive = false;
+                    curr = curr.Next;
+                }
+                    
+            }
+                
         }
         private static void MoveBalls()
         {

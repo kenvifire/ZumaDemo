@@ -19,13 +19,15 @@ public class Ball : MonoBehaviour
     public CircleCollider2D circleCollider2D;
     public string nodeGuid;
     public bool isAlive = true;
+    private int number = 0;
+    private static int cnt = 0;
 
     private Color[] colors = new[]
     {
         Color.black,
         Color.blue,
-        Color.green,
-        Color.yellow
+        // Color.green,
+        // Color.yellow
     };
 
     private void Awake()
@@ -33,6 +35,7 @@ public class Ball : MonoBehaviour
         follower = GetComponent<Follower>();
         circleCollider2D = GetComponent<CircleCollider2D>();
         nodeGuid = Guid.NewGuid().ToString();
+        number = cnt++;
     }
 
     // Start is called before the first frame update
