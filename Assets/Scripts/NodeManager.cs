@@ -13,6 +13,7 @@ namespace DefaultNamespace
         {
             return ballList.Contains(ball);
         }
+
         public static void AddBall(Ball ball)
         {
             ballList.AddFirst(ball);
@@ -30,7 +31,7 @@ namespace DefaultNamespace
                     ball.Destroy();
                     break;
             }
-            
+
         }
 
         public static int GetBallPosition(Ball ball)
@@ -77,7 +78,7 @@ namespace DefaultNamespace
                 case GameStatus.Started:
                 case GameStatus.Ready:
                 case GameStatus.Shooting:
-                    DeleteDeadNodes();    
+                    DeleteDeadNodes();
                     MoveBalls();
                     break;
                 case GameStatus.Inserting:
@@ -98,8 +99,8 @@ namespace DefaultNamespace
             bool isTouching = false;
             if (prev != null && ballPos.Value.IsTouching(prev.Value))
             {
-               MoveNode(MoveType.Backward, prev); 
-               isTouching = true;
+                MoveNode(MoveType.Backward, prev);
+                isTouching = true;
             }
 
             if (next != null && ballPos.Value.IsTouching(next.Value))
@@ -110,15 +111,14 @@ namespace DefaultNamespace
 
             if (!isTouching)
             {
-                CheckComb(); 
+                CheckComb(nodeBeingInserted);
                 GameStatusManager.Ready();
             }
-            
+
         }
 
-        private static void CheckComb()
+        private static void CheckComb(Ball node)
         {
-            Ball node = NodeManager.nodeBeingInserted;
             LinkedListNode<Ball> listNode = ballList.Find(node);
             Color color = node.color;
             LinkedListNode<Ball> prev = listNode;
@@ -144,10 +144,10 @@ namespace DefaultNamespace
                     curr.Value.isAlive = false;
                     curr = curr.Next;
                 }
-                    
             }
-                
+
         }
+
         private static void MoveBalls()
         {
             if (ballList.Count > 0)
@@ -164,7 +164,7 @@ namespace DefaultNamespace
             {
                 if (ball.IsDead())
                 {
-                   balls.Add(ball); 
+                    balls.Add(ball);
                 }
             }
 
@@ -173,7 +173,7 @@ namespace DefaultNamespace
                 ballList.Remove(ball);
                 DestroyBall(ball);
             }
-            
+
         }
     }
 }

@@ -25,9 +25,9 @@ public class Ball : MonoBehaviour
     private Color[] colors = new[]
     {
         Color.black,
-        Color.blue,
+        // Color.blue,
         // Color.green,
-        // Color.yellow
+        Color.yellow
     };
 
     private void Awake()
@@ -42,8 +42,9 @@ public class Ball : MonoBehaviour
     void Start()
     {
         var colorIdx = new System.Random().Next(colors.Length);
+        color = colors[colorIdx];
         GetComponent<SpriteRenderer>().color = colors[colorIdx];
-        
+
     }
 
     // Update is called once per frame
